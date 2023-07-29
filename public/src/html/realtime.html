@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="assets/img/logo.webp">
+  <link href="src/css/style.css" rel="stylesheet">
+  <link href="src/css/speedometer.css" rel="stylesheet">
+  <link href="src/css/pupup.css" rel="stylesheet">
+  <link href="modules/sweetalert2/dist/sweetalert2.css" rel="stylesheet">
+  <script src="src/js/block_selection.js"></script>
+  <script src="modules/rosbag/dist/web/index.js"></script>
+  <script src="modules/socket.io/client-dist/socket.io.js"></script>
+  <script src="modules/sweetalert2/dist/sweetalert2.js"></script>
+  <script src="/modules/chart.js/dist/chart.umd.js"></script>
+  <title>RealTime</title>
+</head>
+
+<body>
+  <div class="w-screen h-fit flex flex-row gap-2 bg-secondary-color dark:bg-gray-1">
+    <aside
+      class="bg-white dark:bg-gray-2 z-10 overflow-visible p-5 place-content-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] h-fit rounded-r-2xl mt-1">
+      <img class="pb-7 max-w-none" alt src="assets/img/logo.webp">
+      <div class="flex flex-col space-y-4">
+        <a href="/">
+          <img class="mx-auto w-10 h-10" alt src="assets/svg/HomeGray.svg"></a>
+        <a href="#">
+          <img class="mx-auto w-11 h-11" alt src="assets/svg/SpeedOrange.svg"></a>
+        <a href="charts">
+          <img class="mx-auto w-10 h-10" alt src="assets/svg/ChartGray.svg"></a>
+        <a href="load_file">
+          <img class="mx-auto w-10 h-10" alt src="assets/svg/AddFileGray.svg"></a>
+        <a href="commands">
+          <img class="mx-auto w-10 h-10" alt src="assets/svg/CommandGray.svg"></a>
+      </div>
+      <div class="mt-20">
+        <label for="switchInput" class="flex cursor-pointer select-none items-center mx-auto">
+          <div class="relative mx-auto">
+            <input type="checkbox" id="switchInput" class="sr-only">
+            <div id="switchDiv" class="block h-6 w-12 rounded-full bg-gray-300"></div>
+            <div id="switchDot" class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition"></div>
+          </div>
+        </label>
+      </div>
+    </aside>
+    <div class="w-full h-full flex flex-col gap-3 p-5">
+      <div class="w-full h-fit flex flex-row">
+        <h1 class="font-formula1 text-xl text-primary-color font-black">Real-Time Telemetry</h1>
+        <div id="commands_div" class="flex flex-row ml-auto gap-4">
+          <button type="button" id="record_btn" class="bg-green-100 hover:bg-green-200 dark:bg-green-700 dark:hover:bg-green-600 py-2 px-4 text-green-600 dark:text-white text-xs rounded shadow-md font-formula1">Start Recording</button>
+        </div>
+      </div>
+      <div class="w-full h-full grid grid-cols-3 gap-2">
+
+        <div class="w-full h-[360px] shadow-md bg-white dark:bg-gray-2 dark:text-white rounded-xl relative">
+
+          <div class="w-full h-fit flex p-3">
+            <img class="w-7 h-auto" src="assets/svg/Steer.svg" alt="">
+            <h1 class="font-formula1 text-sm h-full my-auto ml-2 font-bold">BRAKES PRESSURE, WHEEL SPEEDS and STEER ANGLE</h1>
+          </div>
+
+          <img src="assets/img/CarWheelsLight.png" alt="" class="absolute inset-0 mx-auto mt-auto mb-7 max-w-full h-auto">
+
+          <div class="absolute top-[47%] left-[20%]">
+            <div class="h-fit flex flex-col">
+              <h1 id="front_rpm_left_label" class="font-formula1 mx-auto text-sm font-black">999</h1>
+              <h1 class="font-formula1 text-sm">km/h</h1>
+            </div>
+          </div>
+          <div class="absolute top-[47%] right-[20%]">
+            <div class="h-fit flex flex-col">
+              <h1 id="front_rpm_right_label" class="font-formula1 mx-auto text-sm font-black">999</h1>
+              <h1 class="font-formula1 text-sm">km/h</h1>
+            </div>
+          </div>
+          <div class="absolute bottom-[12%] left-[20%]">
+            <div class="h-fit flex flex-col">
+              <h1 id="rear_rpm_left_label" class="font-formula1 mx-auto text-sm font-black">999</h1>
+              <h1 class="font-formula1 text-sm">km/h</h1>
+            </div>
+          </div>
+          <div class="absolute bottom-[12%] right-[20%]">
+            <div class="h-fit flex flex-col">
+              <h1 id="rear_rpm_right_label" class="font-formula1 mx-auto text-sm font-black">999</h1>
+              <h1 class="font-formula1 text-sm">km/h</h1>
+            </div>
+          </div>
+
+          <div class="absolute inset-x-0 top-[42%]">
+            <div class="h-fit flex flex-row">
+              <div class="mx-auto">
+                <h5 id="front_brake_pressure_label" class="font-formula1 text-sm inline-block font-black w-10 text-center">999</h5>
+                <h5 class="font-formula1 text-sm inline-block text-left">bar</h5>
+              </div>
+            </div>
+          </div>
+          <div class="absolute inset-x-0 bottom-[8%]">
+            <div class="h-fit flex flex-row">
+              <div class="mx-auto">
+                <h5 id="rear_brake_pressure_label" class="font-formula1 text-sm inline-block font-black w-10 text-right">999</h5>
+                <h5 class="font-formula1 text-sm inline-block text-left">bar</h5>
+              </div>
+            </div>
+          </div>
+
+          <img id="steer_image" src="assets/svg/Steer2.svg" alt="" class="absolute inset-x-0 top-20 m-auto max-w-full h-auto">
+
+          <div class="absolute top-[27%] right-[30%]">
+            <div class="h-fit flex flex-row">
+              <h1 id="steering_angle_label" class="font-formula1 mx-auto text-sm font-black inline-block w-8 text-right">999</h1>
+              <h1 class="font-formula1 text-sm ml-1">°</h1>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="speedometer-block" class="bg-white dark:bg-gray-2 relative w-fit h-fit p-5 shadow-md rounded-xl">
+          <div class="bg-[#2E2E2E] rounded-full w-80 h-80 text-white text-center font-semibold">
+            <h6 class="absolute top-[257px] left-[63px] z-10">0</h6>
+            <h6 class="absolute top-[175px] left-[27px] z-10">25</h6>
+            <h6 class="absolute top-20 left-[56px] z-10">50</h6>
+            <h6 class="absolute top-[25px] left-[167px] z-10">75</h6>
+            <h6 class="absolute top-20 left-[278px] z-10">100</h6>
+            <h6 class="absolute top-[175px] left-[308px] z-10">125</h6>
+            <h6 class="absolute top-[257px] left-[278px] z-10">150</h6>
+
+            <div class="w-[330px]">
+              <canvas id="forward_vel_radial_chart"></canvas>
+            </div>
+
+            <div class="z-10 absolute top-0 left-0">
+              <canvas id="tps_radial_chart"></canvas>
+            </div>
+            <img class="absolute top-[80px] left-[48px] -rotate-2 z-20" alt src="assets/svg/ThrottleLabel.svg">
+
+            <div class="z-10 absolute top-[24px] left-[171px] scale-y-[-1] w-[250px]">
+              <canvas id="brake_radial_chart"></canvas>
+            </div>
+            <img class="absolute top-[132px] left-[278px] z-20" alt src="assets/svg/BrakeLabel.svg">
+
+            <div class="absolute top-[105px] left-[55px] z-20 h-64 w-64">
+              <h4 id="radial_chart_speed_label" class="text-3xl">0</h4>
+              <h5>KMH</h5>
+              <h4 id="radial_chart_rpm_label" class="text-3xl mt-4">0</h4>
+              <h5>RPM</h5>
+            </div>
+
+            <div class="absolute top-[250px] left-[140px] z-20">
+              <h5 class="absolute top-[20px] left-[-20px]">TRACTION</h5>
+              <div id="traction_circle" class="absolute top-[23px] left-[75px] w-4 h-4 ml-auto rounded-full bg-red-500 shadow-lg"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="h-[360px] flex flex-col gap-2 z-10 -ml-16">
+          <div class="w-full h-1/2 bg-white dark:bg-gray-2 shadow-md rounded-xl p-5"></div>
+          <div class="w-full h-1/2 bg-white dark:bg-gray-2 shadow-md rounded-xl p-3">
+            <div class="w-full h-fit flex">
+              <img class="w-7 h-auto" src="assets/icons/light_icons/power.png" alt="">
+              <h1 class="font-formula1 h-full my-auto ml-2 font-bold">PDU</h1>
+            </div>
+            <div class="w-full h-[75%] grid grid-cols-2">
+              <div class="w-full h-full p-3 grid grid-rows-4 gap-1">
+                <div class="flex font-formula1 text-sm">
+                  <h1>PDU</h1>
+                  <div id="pdu_circle" class="w-4 h-4 ml-auto rounded-full bg-red-500 shadow-lg"></div>
+                </div>
+                <div class="flex font-formula1 text-sm">
+                  <h1>VCU</h1>
+                  <div class="w-4 h-4 ml-auto rounded-full bg-red-500 shadow-lg"></div>
+                </div>
+                <div class="flex font-formula1 text-sm">
+                  <h1>IMU</h1>
+                  <div class="w-4 h-4 ml-auto rounded-full bg-red-500 shadow-lg"></div>
+                </div>
+                <div class="flex font-formula1 text-sm">
+                  <h1>TSAL</h1>
+                  <div id="tsal_circle" class="w-4 h-4 ml-auto rounded-full bg-red-500 shadow-lg"></div>
+                </div>
+                
+              </div>
+              <div class="w-full h-full p-3 flex">
+                <img class="w-12 h-auto my-auto" src="assets/icons/light_icons/fan.png" alt="">
+                <div class="my-auto ml-4">
+                  <div class="flex font-formula1 text-sm">
+                    <h1>Inverter</h1>
+                    <h1 id="fan_pwm_inverter_label" class="ml-4 font-bold text-right inline-block w-10">999</h1>
+                    <h1 class="ml-2">rpm</h1>
+                  </div>
+                  <div class="flex font-formula1 text-sm">
+                    <h1>Engine</h1>
+                    <h1 id="fan_pwm_engine_label" class="ml-auto font-bold text-right inline-block w-10">999</h1>
+                    <h1 class="ml-2">rpm</h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="w-full h-60 flex flex-row gap-2">
+        <div class="w-1/2 h-full shadow-md bg-white dark:bg-gray-2 dark:text-white rounded-xl">
+          <div class="w-full h-fit p-3 flex">
+            <img class="w-7 h-auto" src="assets/icons/light_icons/inverter.png" alt="">
+            <h1 class="font-formula1 h-full my-auto ml-2 font-bold">INVERTER 1</h1>
+            <h1 class="font-formula1 h-full ml-auto my-auto">Map</h1>
+            <h1 class="font-formula1 ml-2 my-auto font-bold">9</h1>
+            <button onclick="showInfoAlert('Inverter1')">
+              <img class="w-5 h-5 my-auto ml-2 hover:cursor-pointer" src="assets/icons/light_icons/info.png" alt="">
+            </button>
+          </div>
+          <div class="w-full h-[75%] grid grid-cols-2">
+            <div class="w-full h-full p-3 grid grid-rows-6 gap-1">
+              <div class="flex font-formula1 text-sm">
+                <h1>Drive Enable</h1>
+                <div id="inverter1_drive_enable_circle" class="w-4 h-4 ml-auto rounded-full bg-red-500 shadow-lg"></div>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Drive Enable Limit</h1>
+                <div id="inverter1_drive_enable_limit_circle" class="w-4 h-4 ml-auto rounded-full bg-red-500 shadow-lg"></div>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Desired RPM</h1>
+                <h1 id="inverter1_desired_rpm_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">rpm</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Actual RPM</h1>
+                <h1 id="inverter1_actual_rpm_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">rpm</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>DC Input Voltage</h1>
+                <h1 id="inverter1_dc_input_voltage_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">V</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>DC Input Current</h1>
+                <h1 id="inverter1_dc_input_current_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">A</h1>
+              </div>
+            </div>
+            <div class="w-full h-full p-3 grid grid-rows-6 gap-1">
+              <div class="flex font-formula1 text-sm">
+                <h1 class="my-auto">Inverter Temperature</h1>
+                <div class="ml-auto flex">
+                  <div id="inverter1_temp_warning"></div>                 
+                  <h1 id="inverter1_temp_label" class="font-bold ml-1 my-auto">999</h1>
+                  <h1 class="ml-1 my-auto">°C</h1>
+                </div>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Engine Temperature</h1>
+                <h1 id="inverter1_engine_temp_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">°C</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Direct Axis Current</h1>
+                <h1 id="inverter1_direct_axis_current_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">A</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Quadrature Axis Current</h1>
+                <h1 id="inverter1_quadrature_axis_current_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">A</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Desired Torque</h1>
+                <h1 id="inverter1_desired_torque_label" class="ml-auto font-bold">99</h1>
+                <h1 class="ml-1">%</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Desired Brake Torque</h1>
+                <h1 id="inverter1_desired_brake_torque_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">N&middot;m</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-1/2 h-full shadow-md bg-white dark:bg-gray-2 dark:text-white rounded-xl">
+          <div class="w-full h-fit p-3 flex">
+            <img class="w-7 h-auto" src="assets/icons/light_icons/inverter.png" alt="">
+            <h1 class="font-formula1 h-full my-auto ml-2 font-bold">INVERTER 2</h1>
+            <h1 class="font-formula1 h-full ml-auto my-auto">Map</h1>
+            <h1 class="font-formula1 ml-2 my-auto font-bold">9</h1>
+            <button onclick="showInfoAlert('Inverter2')">
+              <img class="w-5 h-5 my-auto ml-2 hover:cursor-pointer" src="assets/icons/light_icons/info.png" alt="">
+            </button>
+          </div>
+          <div class="w-full h-[75%] grid grid-cols-2">
+            <div class="w-full h-full p-3 grid grid-rows-6 gap-1">
+              <div class="flex font-formula1 text-sm">
+                <h1>Drive Enable</h1>
+                <div id="inverter2_drive_enable_circle" class="w-4 h-4 ml-auto rounded-full bg-red-500 shadow-lg"></div>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Drive Enable Limit</h1>
+                <div id="inverter2_drive_enable_limit_circle" class="w-4 h-4 ml-auto rounded-full bg-red-500 shadow-lg"></div>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Desired RPM</h1>
+                <h1 id="inverter2_desired_rpm_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">rpm</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Actual RPM</h1>
+                <h1 id="inverter2_actual_rpm_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">rpm</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>DC Input Voltage</h1>
+                <h1 id="inverter2_dc_input_voltage_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">V</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>DC Input Current</h1>
+                <h1 id="inverter2_dc_input_current_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">A</h1>
+              </div>
+            </div>
+            <div class="w-full h-full p-3 grid grid-rows-6 gap-1">
+              <div class="flex font-formula1 text-sm">
+                <h1>Inverter Temperature</h1>
+                <h1 id="inverter2_temp_label"  class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">°C</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Engine Temperature</h1>
+                <h1 id="inverter2_engine_temp_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">°C</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Direct Axis Current</h1>
+                <h1 id="inverter2_direct_axis_current_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">A</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Quadrature Axis Current</h1>
+                <h1 id="inverter2_quadrature_axis_current_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">A</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Desired Torque</h1>
+                <h1 id="inverter2_desired_torque_label" class="ml-auto font-bold">99</h1>
+                <h1 class="ml-1">%</h1>
+              </div>
+              <div class="flex font-formula1 text-sm">
+                <h1>Desired Brake Torque</h1>
+                <h1 id="inverter2_desired_brake_torque_label" class="ml-auto font-bold">999</h1>
+                <h1 class="ml-1">N&middot;m</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full h-60 shadow-md bg-white dark:bg-gray-2 dark:text-white rounded-xl flex flex-row gap-2">
+        <div class="w-1/4 h-full">
+          <canvas id="rpm_linear_chart"></canvas>
+        </div>
+        <div class="w-1/4 h-full">
+          <canvas id="tps_linear_chart"></canvas>
+        </div>
+        <div class="w-1/4 h-full">
+          <canvas id="forward_vel_linear_chart"></canvas>
+        </div>
+        <div class="w-1/4 h-full">
+          <canvas id="brake_linear_chart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="src/js/chart_options.js"></script>
+  <script src="src/js/classes.js"></script>
+  <script src="src/js/theme_switch.js"></script>
+  <script src="src/js/socket-client.js"></script>
+  <script src="src/js/topics.js"></script>
+  <script src="src/js/alert.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Formula1";
+    src: url("/assets/fonts/Formula1-Regular.ttf");
+}
+
+/* body * {
+    @apply transition-colors duration-100;
+} */
+
+.custom-label input:checked + svg {
+    display: block !important;
+}
+
+.apexcharts-tooltip {
+    visibility: hidden !important;
+}
+
+.swal2-title {
+    font-family: 'Formula1', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 100 !important;
+}
+
+.swal2-confirm {
+    font-family: 'Formula1', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 100 !important;
+}
+
+.grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}

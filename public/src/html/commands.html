@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href="assets/img/logo.webp">
+      <link href="src/css/style.css" rel="stylesheet">
+      <link href="src/css/pupup.css" rel="stylesheet">
+      <link href="modules/sweetalert2/dist/sweetalert2.css" rel="stylesheet">
+      <script src="modules/sweetalert2/dist/sweetalert2.js"></script>
+      <script src="modules/socket.io/client-dist/socket.io.js"></script>
+      <title>Commands</title>
+  </head>
+  <body>
+    <div id="main_div" class="bg-gray-50 dark:bg-gray-1 w-screen h-screen flex flex-row gap-2">
+      <aside class="dark:bg-gray-2 z-10 overflow-visible p-5 place-content-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] bg-white h-fit rounded-r-2xl mt-1">
+        <img class="pb-7 max-w-none" alt src="assets/img/logo.webp">
+        <div class="flex flex-col space-y-4">
+          <a href="/">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/HomeGray.svg"></a>
+          <a href="realtime">
+            <img class="mx-auto w-11 h-11" alt src="assets/svg/SpeedGray.svg"></a>
+          <a href="charts">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/ChartGray.svg"></a>
+          <a href="load_file">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/AddFileGray.svg"></a>
+          <a href="#">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/CommandOrange.svg"></a>
+        </div>
+        <div class="mt-20">
+          <label for="switchInput" class="flex cursor-pointer select-none items-center mx-auto">
+            <div class="relative mx-auto">
+              <input type="checkbox" id="switchInput" class="sr-only" />
+              <div id="switchDiv" class="block h-6 w-12 rounded-full bg-gray-300"></div>
+              <div id="switchDot" class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition"></div>
+            </div>
+          </label>
+        </div>
+      </aside>
+      <div class="w-full h-full p-5 flex font-formula1">
+        <div id="commands_page_content" class="mx-auto w-2/3">
+          <div id="commands_container" class="h-fit bg-white dark:bg-gray-2 shadow-xl rounded-md p-5">
+            <h2 class="text-xl text-primary-color">ROS Nodes</h2>
+            <table class="w-full border-separate border-spacing-y-4">
+              <thead class="text-center text-base text-gray-800 dark:text-white">
+                <th class="text-left font-normal">Node</th>
+                <th class="font-normal">Action</th>
+                <th class="font-normal">Last Check</th>
+                <th class="font-normal">State</th>
+              </thead>
+              <tbody class="font-light text-sm text-center text-gray-700 dark:text-gray-3">
+                <tr>
+                  <td class="text-left">Lidar</td>
+                  <td>
+                    <button id="run_script_btn_0" type="button" onclick="scriptRunOrStop(0)" class="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-700 py-2 px-4 text-blue-600 dark:text-white text-xs rounded shadow-md w-24">Run</button>
+                  </td>
+                  <td id="last_check_0" class="w-64">N.D.</td>
+                  <td><div id="status_circle_0" class="w-5 h-5 mx-auto rounded-full bg-red-500 shadow-lg"></div></td>
+                </tr>
+                <tr>
+                  <td class="text-left">Camera</td>
+                  <td>                
+                    <button id="run_script_btn_1" type="button" onclick="scriptRunOrStop(1)" class="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-700 py-2 px-4 text-blue-600 dark:text-white text-xs rounded shadow-md w-24">Run</button>
+                  </td>
+                  <td id="last_check_1" class="w-64">N.D.</td>
+                  <td><div id="status_circle_0" class="w-5 h-5 mx-auto rounded-full bg-red-500 shadow-lg"></div></td>
+                </tr>
+                <tr>
+                  <td class="text-left">Sensor Fusion</td>
+                  <td>                
+                    <button id="run_script_btn_2" type="button" onclick="scriptRunOrStop(2)" class="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-700 py-2 px-4 text-blue-600 dark:text-white text-xs rounded shadow-md w-24">Run</button>
+                  </td>
+                  <td id="last_check_2" class="w-64">N.D.</td>
+                  <td><div id="status_circle_0" class="w-5 h-5 mx-auto rounded-full bg-red-500 shadow-lg"></div></td>
+                </tr>
+                <tr>
+                  <td class="text-left">SLAM</td>
+                  <td>                
+                    <button id="run_script_btn_3" type="button" onclick="scriptRunOrStop(3)" class="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-700 py-2 px-4 text-blue-600 dark:text-white text-xs rounded shadow-md w-24">Run</button>
+                  </td>
+                  <td id="last_check_3" class="w-64">N.D.</td>
+                  <td><div id="status_circle_0" class="w-5 h-5 mx-auto rounded-full bg-red-500 shadow-lg"></div></td>
+                </tr>
+                <tr>
+                  <td class="text-left">MPC</td>
+                  <td>                
+                    <button id="run_script_btn_4" type="button" onclick="scriptRunOrStop(4)" class="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-700 py-2 px-4 text-blue-600 dark:text-white text-xs rounded shadow-md w-24">Run</button>
+                  </td>
+                  <td id="last_check_4" class="w-64">N.D.</td>
+                  <td><div id="status_circle_0" class="w-5 h-5 mx-auto rounded-full bg-red-500 shadow-lg"></div></td>
+                </tr>
+                <tr>
+                  <td class="text-left">Control</td>
+                  <td>                
+                    <button id="run_script_btn_5" type="button" onclick="scriptRunOrStop(5)" class="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-700 py-2 px-4 text-blue-600 dark:text-white text-xs rounded shadow-md w-24">Run</button>
+                  </td>
+                  <td id="last_check_5" class="w-64">N.D.</td>
+                  <td><div id="status_circle_0" class="w-5 h-5 mx-auto rounded-full bg-red-500 shadow-lg"></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <script src="src/js/theme_switch.js"></script>
+  <script src="src/js/commands.js"></script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href="assets/img/logo.webp">
+      <link href="src/css/style.css" rel="stylesheet">
+      <link href="src/css/speedometer.css" rel="stylesheet">
+      <link href="src/css/pupup.css" rel="stylesheet">
+      <link href="modules/sweetalert2/dist/sweetalert2.css" rel="stylesheet">
+      <script src="src/js/block_selection.js"></script>
+      <script src="modules/rosbag/dist/web/index.js"></script>
+      <script src="modules/sweetalert2/dist/sweetalert2.js"></script>
+      <script src="/modules/chart.js/dist/chart.umd.js"></script>
+      <title>Load File</title>
+  </head>
+  <body>
+    <div class="flex overflow-y-hidden flex-grow bg-secondary-color dark:bg-gray-1">
+      <aside class="bg-white dark:bg-gray-2 z-10 overflow-visible p-5 place-content-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] h-fit rounded-r-2xl mt-1">
+        <img class="pb-7 max-w-none" alt src="assets/img/logo.webp">
+        <div class="flex flex-col space-y-4">
+          <a href="/">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/HomeGray.svg"></a>
+          <a href="realtime">
+            <img class="mx-auto w-11 h-11" alt src="assets/svg/SpeedGray.svg"></a>
+          <a href="charts">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/ChartGray.svg"></a>
+          <a href="#">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/AddFileOrange.svg"></a>
+          <a href="commands">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/CommandGray.svg"></a>
+        </div>
+        <div class="mt-20">
+          <label for="switchInput" class="flex cursor-pointer select-none items-center mx-auto">
+            <div class="relative mx-auto">
+              <input type="checkbox" id="switchInput" class="sr-only" />
+              <div id="switchDiv" class="block h-6 w-12 rounded-full bg-gray-300"></div>
+              <div id="switchDot" class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition"></div>
+            </div>
+          </label>
+        </div>
+      </aside>
+      
+      <div class="flex bg-secondary-color dark:bg-gray-1 w-screen pl-12"> 
+        <div class="w-4/5 bg-[#ebeaea] dark:bg-gray-1 shadow-md min-h-[775px] rounded-xl p-5 mt-8 grid grid-rows-none lg:grid-cols-2">
+
+          <div id="speedometer-block" class="bg-white dark:bg-gray-2 relative w-fit h-fit p-5 shadow-md rounded-xl">
+            <div class="bg-[#2E2E2E] rounded-full w-80 h-80 text-white text-center font-semibold">
+              <h6 class="absolute top-[257px] left-[63px] z-10">0</h6>
+              <h6 class="absolute top-[175px] left-[27px] z-10">25</h6> 
+              <h6 class="absolute top-20 left-[56px] z-10">50</h6>
+              <h6 class="absolute top-[25px] left-[167px] z-10">75</h6>
+              <h6 class="absolute top-20 left-[278px] z-10">100</h6>
+              <h6 class="absolute top-[175px] left-[308px] z-10">125</h6> 
+              <h6 class="absolute top-[257px] left-[278px] z-10">150</h6>
+              
+              <!-- <div id="speed_radial_chart"></div>  top-[10px] left-[14px] scale-y-[-1]-->
+              <div class="w-[330px]">
+                <canvas id="forward_vel_radial_chart"></canvas>
+              </div>
+
+              <div class="z-10 absolute top-0 left-0">
+                <canvas id="tps_radial_chart"></canvas> 
+              </div>
+              <img class="absolute top-[80px] left-[48px] -rotate-2 z-20" alt src="assets/svg/ThrottleLabel.svg">
+              
+              <div class="z-10 absolute top-[24px] left-[171px] scale-y-[-1] w-[250px]"> 
+                <canvas id="brake_radial_chart"></canvas> 
+              </div>
+              <img class="absolute top-[132px] left-[278px] z-20" alt src="assets/svg/BrakeLabel.svg">
+              
+              <div class="absolute top-[105px] left-[55px] z-20 h-64 w-64"> 
+                <h4 id="radial_chart_speed_label" class="text-3xl">0</h4>
+                <h5>KMH</h5>
+                <h4 id="radial_chart_rpm_label" class="text-3xl mt-4">0</h4> 
+                <h5>RPM</h5>
+              </div> 
+    
+              <div class="absolute top-[250px] left-[140px] z-20">
+                <h5 class="absolute top-[10px] left-0">GEAR</h5>
+                <h4 id="radial_chart_gear_label" class="absolute top-0 left-[60px] text-3xl">1</h4>
+                <h5 class="absolute top-[40px] left-0">MISSION</h5>
+              </div>
+
+            </div>
+          </div>
+
+          <div id="first-row" class="grid gap-y-7 max-h-[375px]">
+            <div id="circuit-block" class="bg-white dark:bg-gray-2 relative w-full h-fit p-5 shadow-md rounded-xl">
+              <div class="w-96 m-auto h-32"></div> 
+            </div>
+
+            <div id="infocar-block" class="bg-white dark:bg-gray-2 dark:text-white relative w-full h-fit p-5 shadow-md rounded-xl grid grid-cols-4 gap-8 text-center">
+              <div>
+                <img id="steer-image" class="mx-auto h-16 w-16 pt-2" alt src="assets/svg/Steer2.svg">
+                <div class="text-center mt-3">
+                  <h5 id="steer_label" class="font-formula1 text-sm inline-block w-4">0</h5>
+                  <h5 class="font-formula1 text-sm inline-block text-left"> °</h5> 
+                </div>
+              </div>
+              <div>
+                <img class="mx-auto h-15 w-15" alt src="assets/svg/OilPress.svg">
+                <div class="text-center mt-2">
+                  <h5 id="eop_label" class="font-formula1 text-sm inline-block w-11">0000</h5>
+                  <h5 class="font-formula1 text-sm inline-block text-left"> bar</h5> 
+                </div>
+              </div>
+              <div>
+                <img class="mx-auto h-15 w-15" alt src="assets/svg/WaterTemp.svg">
+                <div class="text-center mt-2">
+                  <h5 id="ect_label" class="font-formula1 text-sm inline-block">0</h5>
+                  <h5 class="font-formula1 text-sm inline-block text-left">°C</h5>
+                </div>
+              </div>
+              <div>
+                <img class="mx-auto h-15 w-15" alt src="assets/svg/ThrottlePress.svg">
+                <div class="text-center mt-2">
+                  <h5 id="tps_label" class="font-formula1 text-sm inline-block w-5">0</h5>
+                  <h5 class="font-formula1 text-sm inline-block text-left">%</h5> 
+                </div>
+              </div>
+            </div> 
+          </div>
+
+          <div id="second-row" class="bg-white dark:bg-gray-2 h-fit col-span-2 grid grid-cols-2 p-5 mt-5 shadow-md rounded-xl">
+            <div id="rpm-graph-block"><canvas id="rpm_linear_chart"></canvas></div>
+            <div id="throttle-graph-block"><canvas id="tps_linear_chart"></canvas></div>
+            <div id="forward_vel-graph-block"><canvas id="forward_vel_linear_chart"></canvas></div>
+            <!-- <div id="gear-graph-block"><canvas id="gear_linear_chart"></canvas></div> -->
+            <div id="brake-graph-block"><canvas id="brake_linear_chart"></canvas></div>
+          </div>
+
+        </div>
+
+        <div class="w-1/5 ml-5 relative">
+          <div class="fixed top-0 right-0 bg-white dark:bg-gray-1 mt-8 shadow-md rounded-l-xl p-8 grid gap-4">
+            <button onclick="document.getElementById('fileinput').click()" class="rounded-md bg-orange-500 hover:bg-orange-600 shadow-md font-formula1 text-white text-base py-2 px-10">CARICA FILE</button>  
+            <input id="fileinput" type="file" class="hidden" accept=".bag" onchange="newFileBagInput()">
+            <label for="fileinput" class="text-sm font-base dark:text-white font-formula1 flex items-center content-center gap-x-1">File caricato:<span id="span_file_name" class="font-normal dark:text-white w-16 truncate inline-block my-auto text-xs">nessuno</span></label>
+          </div>
+        
+          <div class="fixed top-0 right-0 bg-white mt-52 shadow-md rounded-l-xl p-8 grid gap-4 dark:bg-gray-2">
+            <h5 class="text-primary-color text-lg font-formula1">Scegli i blocchi:</h5>
+            <div class="col space-x-2">
+              <label class="custom-label flex">
+                <span class="bg-white shadow rounded-md w-6 h-6 p-1 flex justify-center items-center mr-2">
+                  <input type="checkbox" class="hidden" checked onchange="changeBlockStatus('speedometer-block')">
+                  <svg class="pointer-events-none hidden" style="color: rgb(255, 134, 71);" width="40" zoomAndPan="magnify" viewBox="0 0 30 30.000001" height="40" preserveAspectRatio="xMidYMid meet"><defs><clipPath><path d="M 2.328125 4.222656 L 27.734375 4.222656 L 27.734375 24.542969 L 2.328125 24.542969 Z M 2.328125 4.222656 " clip-rule="nonzero" fill="#ff8647"></path></clipPath></defs><g clip-path="url(#id1)"><path fill="#ff8647" d="M 27.5 7.53125 L 24.464844 4.542969 C 24.15625 4.238281 23.65625 4.238281 23.347656 4.542969 L 11.035156 16.667969 L 6.824219 12.523438 C 6.527344 12.230469 6 12.230469 5.703125 12.523438 L 2.640625 15.539062 C 2.332031 15.84375 2.332031 16.335938 2.640625 16.640625 L 10.445312 24.324219 C 10.59375 24.472656 10.796875 24.554688 11.007812 24.554688 C 11.214844 24.554688 11.417969 24.472656 11.566406 24.324219 L 27.5 8.632812 C 27.648438 8.488281 27.734375 8.289062 27.734375 8.082031 C 27.734375 7.875 27.648438 7.679688 27.5 7.53125 Z M 27.5 7.53125 " fill-opacity="1" fill-rule="nonzero"></path></g></svg>
+                </span>
+                <span class="select-none font-formula1 text-sm dark:text-white">Tachimetro</span>
+              </label>
+            </div>
+            <div class="col space-x-2">
+              <label class="custom-label flex">
+                <span class="bg-white shadow rounded-md w-6 h-6 p-1 flex justify-center items-center mr-2">
+                  <input type="checkbox" class="hidden" checked onchange="changeBlockStatus('infocar-block')">
+                  <svg class="pointer-events-none hidden" style="color: rgb(255, 134, 71);" width="40" zoomAndPan="magnify" viewBox="0 0 30 30.000001" height="40" preserveAspectRatio="xMidYMid meet"><defs><clipPath><path d="M 2.328125 4.222656 L 27.734375 4.222656 L 27.734375 24.542969 L 2.328125 24.542969 Z M 2.328125 4.222656 " clip-rule="nonzero" fill="#ff8647"></path></clipPath></defs><g clip-path="url(#id1)"><path fill="#ff8647" d="M 27.5 7.53125 L 24.464844 4.542969 C 24.15625 4.238281 23.65625 4.238281 23.347656 4.542969 L 11.035156 16.667969 L 6.824219 12.523438 C 6.527344 12.230469 6 12.230469 5.703125 12.523438 L 2.640625 15.539062 C 2.332031 15.84375 2.332031 16.335938 2.640625 16.640625 L 10.445312 24.324219 C 10.59375 24.472656 10.796875 24.554688 11.007812 24.554688 C 11.214844 24.554688 11.417969 24.472656 11.566406 24.324219 L 27.5 8.632812 C 27.648438 8.488281 27.734375 8.289062 27.734375 8.082031 C 27.734375 7.875 27.648438 7.679688 27.5 7.53125 Z M 27.5 7.53125 " fill-opacity="1" fill-rule="nonzero"></path></g></svg>
+                </span>
+                <span class="select-none font-formula1 text-sm dark:text-white">Informazioni Auto</span>
+              </label>
+            </div>
+            <div class="col space-x-2">
+              <label class="custom-label flex">
+                <span class="bg-white shadow rounded-md w-6 h-6 p-1 flex justify-center items-center mr-2">
+                  <input type="checkbox" class="hidden" checked onchange="changeBlockStatus('circuit-block')">
+                  <svg class="pointer-events-none hidden" style="color: rgb(255, 134, 71);" width="40" zoomAndPan="magnify" viewBox="0 0 30 30.000001" height="40" preserveAspectRatio="xMidYMid meet"><defs><clipPath><path d="M 2.328125 4.222656 L 27.734375 4.222656 L 27.734375 24.542969 L 2.328125 24.542969 Z M 2.328125 4.222656 " clip-rule="nonzero" fill="#ff8647"></path></clipPath></defs><g clip-path="url(#id1)"><path fill="#ff8647" d="M 27.5 7.53125 L 24.464844 4.542969 C 24.15625 4.238281 23.65625 4.238281 23.347656 4.542969 L 11.035156 16.667969 L 6.824219 12.523438 C 6.527344 12.230469 6 12.230469 5.703125 12.523438 L 2.640625 15.539062 C 2.332031 15.84375 2.332031 16.335938 2.640625 16.640625 L 10.445312 24.324219 C 10.59375 24.472656 10.796875 24.554688 11.007812 24.554688 C 11.214844 24.554688 11.417969 24.472656 11.566406 24.324219 L 27.5 8.632812 C 27.648438 8.488281 27.734375 8.289062 27.734375 8.082031 C 27.734375 7.875 27.648438 7.679688 27.5 7.53125 Z M 27.5 7.53125 " fill-opacity="1" fill-rule="nonzero"></path></g></svg>
+                </span>
+                <span class="select-none font-formula1 text-sm dark:text-white">Circuito</span>
+              </label>
+            </div>
+            <div class="col space-x-2">
+              <label class="custom-label flex">
+                <span class="bg-white shadow rounded-md w-6 h-6 p-1 flex justify-center items-center mr-2">
+                  <input type="checkbox" class="hidden" checked onchange="changeBlockStatus('rpm-graph-block')">
+                  <svg class="pointer-events-none hidden" style="color: rgb(255, 134, 71);" width="40" zoomAndPan="magnify" viewBox="0 0 30 30.000001" height="40" preserveAspectRatio="xMidYMid meet"><defs><clipPath><path d="M 2.328125 4.222656 L 27.734375 4.222656 L 27.734375 24.542969 L 2.328125 24.542969 Z M 2.328125 4.222656 " clip-rule="nonzero" fill="#ff8647"></path></clipPath></defs><g clip-path="url(#id1)"><path fill="#ff8647" d="M 27.5 7.53125 L 24.464844 4.542969 C 24.15625 4.238281 23.65625 4.238281 23.347656 4.542969 L 11.035156 16.667969 L 6.824219 12.523438 C 6.527344 12.230469 6 12.230469 5.703125 12.523438 L 2.640625 15.539062 C 2.332031 15.84375 2.332031 16.335938 2.640625 16.640625 L 10.445312 24.324219 C 10.59375 24.472656 10.796875 24.554688 11.007812 24.554688 C 11.214844 24.554688 11.417969 24.472656 11.566406 24.324219 L 27.5 8.632812 C 27.648438 8.488281 27.734375 8.289062 27.734375 8.082031 C 27.734375 7.875 27.648438 7.679688 27.5 7.53125 Z M 27.5 7.53125 " fill-opacity="1" fill-rule="nonzero"></path></g></svg>
+                </span>
+                <span class="select-none font-formula1 text-sm dark:text-white">Grafico RPM</span>
+              </label>
+            </div>
+            <div class="col space-x-2">
+              <label class="custom-label flex">
+                <span class="bg-white shadow rounded-md w-6 h-6 p-1 flex justify-center items-center mr-2">
+                  <input type="checkbox" class="hidden" checked onchange="changeBlockStatus('forward_vel-graph-block')">
+                  <svg class="pointer-events-none hidden" style="color: rgb(255, 134, 71);" width="40" zoomAndPan="magnify" viewBox="0 0 30 30.000001" height="40" preserveAspectRatio="xMidYMid meet"><defs><clipPath><path d="M 2.328125 4.222656 L 27.734375 4.222656 L 27.734375 24.542969 L 2.328125 24.542969 Z M 2.328125 4.222656 " clip-rule="nonzero" fill="#ff8647"></path></clipPath></defs><g clip-path="url(#id1)"><path fill="#ff8647" d="M 27.5 7.53125 L 24.464844 4.542969 C 24.15625 4.238281 23.65625 4.238281 23.347656 4.542969 L 11.035156 16.667969 L 6.824219 12.523438 C 6.527344 12.230469 6 12.230469 5.703125 12.523438 L 2.640625 15.539062 C 2.332031 15.84375 2.332031 16.335938 2.640625 16.640625 L 10.445312 24.324219 C 10.59375 24.472656 10.796875 24.554688 11.007812 24.554688 C 11.214844 24.554688 11.417969 24.472656 11.566406 24.324219 L 27.5 8.632812 C 27.648438 8.488281 27.734375 8.289062 27.734375 8.082031 C 27.734375 7.875 27.648438 7.679688 27.5 7.53125 Z M 27.5 7.53125 " fill-opacity="1" fill-rule="nonzero"></path></g></svg>
+                </span>
+                <span class="select-none font-formula1 text-sm dark:text-white">Grafico Velocità</span>
+              </label>
+            </div>
+            <div class="col space-x-2">
+              <label class="custom-label flex">
+                <span class="bg-white shadow rounded-md w-6 h-6 p-1 flex justify-center items-center mr-2">
+                  <input type="checkbox" class="hidden" checked onchange="changeBlockStatus('gear-graph-block')">
+                  <svg class="pointer-events-none hidden" style="color: rgb(255, 134, 71);" width="40" zoomAndPan="magnify" viewBox="0 0 30 30.000001" height="40" preserveAspectRatio="xMidYMid meet"><defs><clipPath><path d="M 2.328125 4.222656 L 27.734375 4.222656 L 27.734375 24.542969 L 2.328125 24.542969 Z M 2.328125 4.222656 " clip-rule="nonzero" fill="#ff8647"></path></clipPath></defs><g clip-path="url(#id1)"><path fill="#ff8647" d="M 27.5 7.53125 L 24.464844 4.542969 C 24.15625 4.238281 23.65625 4.238281 23.347656 4.542969 L 11.035156 16.667969 L 6.824219 12.523438 C 6.527344 12.230469 6 12.230469 5.703125 12.523438 L 2.640625 15.539062 C 2.332031 15.84375 2.332031 16.335938 2.640625 16.640625 L 10.445312 24.324219 C 10.59375 24.472656 10.796875 24.554688 11.007812 24.554688 C 11.214844 24.554688 11.417969 24.472656 11.566406 24.324219 L 27.5 8.632812 C 27.648438 8.488281 27.734375 8.289062 27.734375 8.082031 C 27.734375 7.875 27.648438 7.679688 27.5 7.53125 Z M 27.5 7.53125 " fill-opacity="1" fill-rule="nonzero"></path></g></svg>
+                </span>
+                <span class="select-none font-formula1 text-sm dark:text-white">Grafico Marcia</span>
+              </label>
+            </div>
+            <div class="col space-x-2">
+              <label class="custom-label flex">
+                <span class="bg-white shadow rounded-md w-6 h-6 p-1 flex justify-center items-center mr-2">
+                  <input type="checkbox" class="hidden" checked onchange="changeBlockStatus('throttle-graph-block')">
+                  <svg class="pointer-events-none hidden" style="color: rgb(255, 134, 71);" width="40" zoomAndPan="magnify" viewBox="0 0 30 30.000001" height="40" preserveAspectRatio="xMidYMid meet"><defs><clipPath><path d="M 2.328125 4.222656 L 27.734375 4.222656 L 27.734375 24.542969 L 2.328125 24.542969 Z M 2.328125 4.222656 " clip-rule="nonzero" fill="#ff8647"></path></clipPath></defs><g clip-path="url(#id1)"><path fill="#ff8647" d="M 27.5 7.53125 L 24.464844 4.542969 C 24.15625 4.238281 23.65625 4.238281 23.347656 4.542969 L 11.035156 16.667969 L 6.824219 12.523438 C 6.527344 12.230469 6 12.230469 5.703125 12.523438 L 2.640625 15.539062 C 2.332031 15.84375 2.332031 16.335938 2.640625 16.640625 L 10.445312 24.324219 C 10.59375 24.472656 10.796875 24.554688 11.007812 24.554688 C 11.214844 24.554688 11.417969 24.472656 11.566406 24.324219 L 27.5 8.632812 C 27.648438 8.488281 27.734375 8.289062 27.734375 8.082031 C 27.734375 7.875 27.648438 7.679688 27.5 7.53125 Z M 27.5 7.53125 " fill-opacity="1" fill-rule="nonzero"></path></g></svg>
+                </span>
+                <span class="select-none font-formula1 text-sm dark:text-white">Grafico Acceleratore</span>
+              </label>
+            </div>
+            <div class="col space-x-2">
+              <label class="custom-label flex">
+                <span class="bg-white shadow rounded-md w-6 h-6 p-1 flex justify-center items-center mr-2">
+                  <input type="checkbox" class="hidden" checked onchange="changeBlockStatus('brake-graph-block')">
+                  <svg class="pointer-events-none hidden" style="color: rgb(255, 134, 71);" width="40" zoomAndPan="magnify" viewBox="0 0 30 30.000001" height="40" preserveAspectRatio="xMidYMid meet"><defs><clipPath><path d="M 2.328125 4.222656 L 27.734375 4.222656 L 27.734375 24.542969 L 2.328125 24.542969 Z M 2.328125 4.222656 " clip-rule="nonzero" fill="#ff8647"></path></clipPath></defs><g clip-path="url(#id1)"><path fill="#ff8647" d="M 27.5 7.53125 L 24.464844 4.542969 C 24.15625 4.238281 23.65625 4.238281 23.347656 4.542969 L 11.035156 16.667969 L 6.824219 12.523438 C 6.527344 12.230469 6 12.230469 5.703125 12.523438 L 2.640625 15.539062 C 2.332031 15.84375 2.332031 16.335938 2.640625 16.640625 L 10.445312 24.324219 C 10.59375 24.472656 10.796875 24.554688 11.007812 24.554688 C 11.214844 24.554688 11.417969 24.472656 11.566406 24.324219 L 27.5 8.632812 C 27.648438 8.488281 27.734375 8.289062 27.734375 8.082031 C 27.734375 7.875 27.648438 7.679688 27.5 7.53125 Z M 27.5 7.53125 " fill-opacity="1" fill-rule="nonzero"></path></g></svg>
+                </span>
+                <span class="select-none font-formula1 text-sm dark:text-white">Grafico Freno</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- BOTTONE DA TOGLIERE -->
+    <button id="alert-prova" class="fixed bottom-5 right-5 font-formula1 dark:text-white" onclick="showAttenctionAlert()">alert</button>
+    <script src="src/js/alert.js"></script>
+    <script src="src/js/chart_options.js"></script>
+    <script src="src/js/classes.js"></script>
+    <script src="src/js/simulation.js"></script>
+    <script src="src/js/theme_switch.js"></script>
+    
+  </body>
+</html>

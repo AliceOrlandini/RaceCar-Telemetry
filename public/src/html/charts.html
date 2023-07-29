@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href="assets/img/logo.webp">
+      <link href="src/css/style.css" rel="stylesheet">
+      <link href="src/css/pupup.css" rel="stylesheet">
+      <link href="modules/sweetalert2/dist/sweetalert2.css" rel="stylesheet">
+      <script src="modules/rosbag/dist/web/index.js"></script>
+      <script src="modules/sweetalert2/dist/sweetalert2.js"></script>
+      <script src="/modules/chart.js/dist/chart.umd.js"></script>
+      <script src="/modules/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js"></script>
+      <script src="modules/js-yaml/dist/js-yaml.min.js"></script>
+      <script src="modules/sql.js/dist/sql-wasm.js"></script>
+      <script src="modules/sql.js/dist/worker.sql-asm.js"></script>
+      <title>Charts</title>
+  </head>
+  <body>
+    <div id="main_div" class="bg-gray-50 dark:bg-gray-1 w-screen h-screen flex flex-row gap-2">
+      <aside class="dark:bg-gray-2 z-10 overflow-visible p-5 place-content-center shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] bg-white h-fit rounded-r-2xl mt-1">
+        <img class="pb-7 max-w-none" alt src="assets/img/logo.webp">
+        <div class="flex flex-col space-y-4">
+          <a href="/">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/HomeGray.svg"></a>
+          <a href="realtime">
+            <img class="mx-auto w-11 h-11" alt src="assets/svg/SpeedGray.svg"></a>
+          <a href="#">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/ChartOrange.svg"></a>
+          <a href="load_file">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/AddFileGray.svg"></a>
+          <a href="commands">
+            <img class="mx-auto w-10 h-10" alt src="assets/svg/CommandGray.svg"></a>
+        </div>
+        <div class="mt-20">
+          <label for="switchInput" class="flex cursor-pointer select-none items-center mx-auto">
+            <div class="relative mx-auto">
+              <input type="checkbox" id="switchInput" class="sr-only" />
+              <div id="switchDiv" class="block h-6 w-12 rounded-full bg-gray-300"></div>
+              <div id="switchDot" class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition"></div>
+            </div>
+          </label>
+        </div>
+      </aside>
+      <div class="w-full h-full p-5 flex">
+        <div id="charts_page_content" class="mx-auto w-2/3">
+          <div id="dialog_container" class="h-fit bg-white dark:bg-gray-2 shadow-xl rounded-md p-5">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="src/js/theme_switch.js"></script>
+    <script src="src/js/chart_options.js"></script>
+    <script src="src/js/classes.js"></script>
+    <script src="src/js/topics.js"></script>
+    <script src="src/js/alert.js"></script>
+    <script src="src/js/bag_download.js"></script>
+    <script src="src/js/cdr_reader.js"></script>
+    <script src="src/js/charts_dialog.js"></script>
+    
+  </body>
+</html>

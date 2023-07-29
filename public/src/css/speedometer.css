@@ -1,0 +1,6 @@
+#brake_radial_chart {
+    rotate: 3deg;
+}
+#throttle_radial_chart div svg, #brake_radial_chart div svg {
+    height: 350px !important;
+}
