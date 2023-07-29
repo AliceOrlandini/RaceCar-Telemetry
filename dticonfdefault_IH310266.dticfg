@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <DateTime>09.02.2023 - 19:25:18</DateTime>
+    <CANToolVer>1.31</CANToolVer>
+    <SerialNO>IH310266</SerialNO>
+    <Firmware>4.52</Firmware>
+    <Hardware>3.7</Hardware>
+    <MCConfiguration>
+        <s_pid_min_erpm>300</s_pid_min_erpm>
+        <m_sensor_port_mode>4</m_sensor_port_mode>
+        <m_dc_f_sw>35000</m_dc_f_sw>
+        <sl_cycle_int_rpm_br>80000</sl_cycle_int_rpm_br>
+        <l_max_erpm>70000</l_max_erpm> <!-- RPM Max ERPM -->
+        <foc_openloop_rpm>400</foc_openloop_rpm>
+        <m_bldc_f_sw_min>10000</m_bldc_f_sw_min>
+        <l_in_current_max>50</l_in_current_max> <!-- DC Current Battery Current Max -->
+        <foc_motor_l>5.4e-5</foc_motor_l>
+        <foc_sensor_mode>0</foc_sensor_mode>
+        <foc_reverse_torque_current_factor>1</foc_reverse_torque_current_factor>
+        <foc_duty_dowmramp_kp>10</foc_duty_dowmramp_kp>
+        <foc_f_sw>20000</foc_f_sw>
+        <m_waiting_for_index_signal>0</m_waiting_for_index_signal>
+        <l_max_duty>0.95</l_max_duty>
+        <foc_dt_us>0.08</foc_dt_us>
+        <l_min_vin>30</l_min_vin> <!-- DC Voltage Fault Minimun Input Voltage -->
+        <l_temp_motor_start>80</l_temp_motor_start> <!-- Temperature Motor Temp Cutoff Start -->
+        <motor_brand>Unnamed</motor_brand>
+        <l_max_erpm_fbrake_cc>1500</l_max_erpm_fbrake_cc>
+        <pwm_mode>1</pwm_mode>
+        <p_pid_kp>0.03</p_pid_kp> <!-- Position Controller Position PID Kp-->
+        <lo_in_current_max>0</lo_in_current_max>
+        <sl_phase_advance_at_br>0.8</sl_phase_advance_at_br>
+        <l_temp_accel_dec>0.15</l_temp_accel_dec> <!-- Temperature Acceleration Temperature Decrease -->
+        <sl_max_fullbreak_current_dir_change>10</sl_max_fullbreak_current_dir_change>
+        <foc_hall_table_1>255</foc_hall_table_1>
+        <l_erpm_start>0.8</l_erpm_start> <!-- RPM ERPM Limit Start -->
+        <foc_encoder_offset>180</foc_encoder_offset> <!-- Encoder Offset -->
+        <foc_hall_table_5>255</foc_hall_table_5>
+        <foc_pll_ki>40000</foc_pll_ki>
+        <sl_cycle_int_limit>62</sl_cycle_int_limit>
+        <l_watt_max>150000</l_watt_max> <!-- Power Maximum Wattage -->
+        <l_watt_min>-150000</l_watt_min> <!-- Power Maximum Braking Wattage -->
+        <foc_sample_v0_v7>1</foc_sample_v0_v7>
+        <m_ntc_motor_beta>3380</m_ntc_motor_beta>
+        <m_fault_stop_time_ms>5000</m_fault_stop_time_ms>
+        <motor_sensor_type>0</motor_sensor_type>
+        <hall_table_4>5</hall_table_4>
+        <l_temp_fet_start>70</l_temp_fet_start> <!-- Temperature Controller Temp Cutoff Start -->
+        <m_invert_direction>0</m_invert_direction>
+        <m_bldc_f_sw_max>15000</m_bldc_f_sw_max>
+        <foc_sl_d_current_factor>0</foc_sl_d_current_factor>
+        <s_pid_kp>0.004</s_pid_kp>
+        <p_pid_current_range>0.2</p_pid_current_range>
+        <l_in_current_min>-2</l_in_current_min> <!-- DC Current Battery Current Max Regen -->
+        <sl_bemf_coupling_k>600</sl_bemf_coupling_k>
+        <foc_sl_openloop_time>0.1</foc_sl_openloop_time>
+        <foc_temp_comp_base_temp>25</foc_temp_comp_base_temp>
+        <foc_motor_flux_linkage>0.02757</foc_motor_flux_linkage>
+        <foc_hall_table_3>255</foc_hall_table_3>
+        <l_secondary_current_protection>0</l_secondary_current_protection>
+        <hall_table_7>-1</hall_table_7>
+        <l_max_vin>450</l_max_vin> <!-- DC Voltage Fault Maximum Input Voltage -->
+        <l_encoder_dynamic_offset>0.00131875</l_encoder_dynamic_offset>
+        <sl_min_erpm_cycle_int_limit>1100</sl_min_erpm_cycle_int_limit>
+        <comm_mode>0</comm_mode>
+        <s_pid_kd>0.0001</s_pid_kd>
+        <foc_encoder_ratio>10</foc_encoder_ratio> <!-- Encoder Ratio -->
+        <l_min_erpm>-70000</l_min_erpm> <!-- RPM Max ERPM Reverse -->
+        <lo_in_current_min>0</lo_in_current_min>
+        <l_min_duty>0.005</l_min_duty>
+        <hall_table_0>-1</hall_table_0>
+        <motor_model>Not Specified</motor_model>
+        <l_abs_current_max>150</l_abs_current_max> <!-- AC Current Absolute Maximum Current -->
+        <cc_startup_boost_duty>0.01</cc_startup_boost_duty>
+        <foc_hall_table_7>255</foc_hall_table_7>
+        <m_current_backoff_gain>0.5</m_current_backoff_gain>
+        <foc_sl_d_current_duty>0</foc_sl_d_current_duty>
+        <foc_pll_kp>2000</foc_pll_kp>
+        <lo_current_max>0</lo_current_max>
+        <l_slow_abs_current>1</l_slow_abs_current>
+        <foc_hall_table_4>255</foc_hall_table_4>
+        <s_pid_allow_braking>1</s_pid_allow_braking>
+        <foc_temp_comp>0</foc_temp_comp>
+        <foc_encoder_inverted>0</foc_encoder_inverted>
+        <motor_poles>14</motor_poles>
+        <l_current_min>-100</l_current_min> <!-- AC Current Motor Current Max Brake -->
+        <foc_current_kp>0.054</foc_current_kp>
+        <hall_table_2>3</hall_table_2>
+        <hall_sl_erpm>160000</hall_sl_erpm>
+        <cc_min_current>0.1</cc_min_current>
+        <foc_hall_table_6>255</foc_hall_table_6>
+        <m_duty_ramp_step>0.02</m_duty_ramp_step>
+        <l_temp_fet_end>100</l_temp_fet_end> <!-- Temperature Controller Temp Cutoff End -->
+        <s_pid_ki>0.004</s_pid_ki>
+        <foc_sample_high_current>0</foc_sample_high_current>
+        <m_encoder_counts>3</m_encoder_counts>
+        <hall_table_3>2</hall_table_3>
+        <l_current_max>100</l_current_max> <!-- AC Current Motor Current Max -->
+        <lo_current_motor_max_now>0</lo_current_motor_max_now>
+        <foc_motor_r>0.0057</foc_motor_r>
+        <foc_hall_table_2>255</foc_hall_table_2>
+        <foc_observer_gain_slow>0.3</foc_observer_gain_slow>
+        <l_max_erpm_fbrake>300</l_max_erpm_fbrake>
+        <lo_current_motor_min_now>0</lo_current_motor_min_now>
+        <sensor_mode>0</sensor_mode>
+        <cc_ramp_step_max>0.04</cc_ramp_step_max>
+        <hall_table_6>4</hall_table_6>
+        <l_battery_cut_start>40</l_battery_cut_start> <!-- DC Voltage Limit Low Battery Voltage Limit Start -->
+        <cc_gain>0.0046</cc_gain>
+        <foc_duty_dowmramp_ki>200</foc_duty_dowmramp_ki>
+        <foc_current_ki>5.7</foc_current_ki> <!-- Calculated Values Current KI -->
+        <foc_sl_openloop_hyst>0.1</foc_sl_openloop_hyst>
+        <foc_sl_erpm>160000</foc_sl_erpm>
+        <foc_sat_comp>0</foc_sat_comp>
+        <hall_table_5>6</hall_table_5>
+        <hall_table_1>1</hall_table_1>
+        <motor_weight>0</motor_weight>
+        <foc_observer_gain>1.32e+6</foc_observer_gain>
+        <foc_hall_table_0>255</foc_hall_table_0>
+        <p_pid_ki>0</p_pid_ki>
+        <p_pid_kd>0.0004</p_pid_kd>
+        <motor_type>0</motor_type>
+        <l_temp_motor_end>90</l_temp_motor_end> <!-- Temperature Motor Temp Cutoff End -->
+        <l_battery_cut_end>30</l_battery_cut_end> <!-- DC Voltage Limit Low Battery Voltage Limit End -->
+        <lo_current_min>0</lo_current_min>
+        <sl_min_erpm>150</sl_min_erpm>
+        <p_pid_ang_div>1</p_pid_ang_div>
+    </MCConfiguration>
+<APPConfiguration>
+    <app_adc_conf.voltage2_inverted>0</app_adc_conf.voltage2_inverted>
+    <can1_baud_rate>2</can1_baud_rate>
+    <app_dout_conf.dout_3_function>0</app_dout_conf.dout_3_function>
+    <throttle_map.max_ac_brake_current_9>-300</throttle_map.max_ac_brake_current_9>
+    <app_adc_conf.error_timeout_msec>1041865114</app_adc_conf.error_timeout_msec>
+    <throttle_map.max_ac_current_6>300</throttle_map.max_ac_current_6>
+    <throttle_map.erpm_6>10000</throttle_map.erpm_6>
+    <app_adc_conf.ctrl_type>3</app_adc_conf.ctrl_type>
+    <throttle_map.max_ac_brake_current_8>-300</throttle_map.max_ac_brake_current_8>
+    <use_can2_extended_id>1</use_can2_extended_id>
+    <throttle_map.use_map>32</throttle_map.use_map>
+    <throttle_map.max_ac_brake_current_1>300</throttle_map.max_ac_brake_current_1>
+    <app_adc_conf.ramp_time_neg>0</app_adc_conf.ramp_time_neg>
+    <app_din_conf.din_4_function>0</app_din_conf.din_4_function>
+    <app_dout_conf.dout_1_inverse>0</app_dout_conf.dout_1_inverse>
+    <timeout_brake_current>0</timeout_brake_current>
+    <app_adc_conf.voltage2_start>5</app_adc_conf.voltage2_start>
+    <can2_baud_rate>2</can2_baud_rate>
+    <app_dout_conf.dout_4_relation>0</app_dout_conf.dout_4_relation>
+    <app_adc_conf.throttle_exp>2.5</app_adc_conf.throttle_exp>
+    <app_dout_conf.dout_2_inverse>0</app_dout_conf.dout_2_inverse>
+    <app_din_conf.din_4_inverse>0</app_din_conf.din_4_inverse>
+    <app_din_conf.din_1_inverse>205</app_din_conf.din_1_inverse>
+    <app_adc_conf.voltage3_start>5</app_adc_conf.voltage3_start>
+    <app_adc_conf.throttle_exp_brake>3.60134e-43</app_adc_conf.throttle_exp_brake>
+    <app_dout_conf.dout_2_value>0</app_dout_conf.dout_2_value>
+    <app_dout_conf.dout_3_inverse>0</app_dout_conf.dout_3_inverse>
+    <app_adc_conf.voltage2_center>0</app_adc_conf.voltage2_center>
+    <throttle_map.erpm_9>10000</throttle_map.erpm_9>
+    <throttle_map.max_ac_current_7>300</throttle_map.max_ac_current_7>
+    <app_dout_conf.dout_2_relation>0</app_dout_conf.dout_2_relation>
+    <throttle_map.erpm_7>10000</throttle_map.erpm_7>
+    <app_din_conf.din_2_function>204</app_din_conf.din_2_function>
+    <app_adc_conf.voltage_center>0</app_adc_conf.voltage_center>
+    <home_position_t.home_position_angle>0</home_position_t.home_position_angle>
+    <app_adc_conf.cc_button_inverted>102</app_adc_conf.cc_button_inverted>
+    <app_dout_conf.dout_1_function>0</app_dout_conf.dout_1_function>
+    <drive_enable_via_can2>0</drive_enable_via_can2>
+    <send_can2_status>0</send_can2_status>
+    <throttle_map.erpm_10>10000</throttle_map.erpm_10>
+    <throttle_map.max_ac_current_5>300</throttle_map.max_ac_current_5>
+    <app_adc_conf.max_allowed_diff>0</app_adc_conf.max_allowed_diff>
+    <app_din_conf.din_1_value>16025</app_din_conf.din_1_value>
+    <timeout_msec>200</timeout_msec>
+    <throttle_map.erpm_2>1.35632e-19</throttle_map.erpm_2>
+    <throttle_map.max_ac_current_1>10000</throttle_map.max_ac_current_1>
+    <throttle_map.max_ac_current_2>10000</throttle_map.max_ac_current_2>
+    <app_dout_conf.dout_4_hysteresis>0</app_dout_conf.dout_4_hysteresis>
+    <app_din_conf.din_3_value>0</app_din_conf.din_3_value>
+    <app_adc_conf.voltage2_end>2.5</app_adc_conf.voltage2_end>
+    <app_adc_conf.throttle_exp_mode>0</app_adc_conf.throttle_exp_mode>
+    <app_adc_conf.analog_in_2_type>1063675494</app_adc_conf.analog_in_2_type>
+    <enable_can2>0</enable_can2>
+    <throttle_map.max_ac_brake_current_3>300</throttle_map.max_ac_brake_current_3>
+    <throttle_map.erpm_4>10000</throttle_map.erpm_4>
+    <app_adc_conf.voltage_inverted>0</app_adc_conf.voltage_inverted>
+    <app_dout_conf.dout_3_hysteresis>0</app_dout_conf.dout_3_hysteresis>
+    <app_to_use>0</app_to_use>
+    <throttle_map.max_ac_brake_current_2>300</throttle_map.max_ac_brake_current_2>
+    <app_adc_conf.ramp_time_pos>0</app_adc_conf.ramp_time_pos>
+    <throttle_map.max_ac_current_9>300</throttle_map.max_ac_current_9>
+    <controller_id>66</controller_id>
+    <deviceName></deviceName>
+    <throttle_map.max_ac_current_8>300</throttle_map.max_ac_current_8>
+    <throttle_map.max_ac_brake_current_6>-300</throttle_map.max_ac_brake_current_6>
+    <app_adc_conf.analog_in_1_type>1041865114</app_adc_conf.analog_in_1_type>
+    <throttle_map.erpm_1>1.35632e-19</throttle_map.erpm_1>
+    <throttle_map.erpm_3>0</throttle_map.erpm_3>
+    <throttle_map.erpm_5>10000</throttle_map.erpm_5>
+    <app_din_conf.din_3_inverse>0</app_din_conf.din_3_inverse>
+    <app_dout_conf.dout_1_hysteresis>0</app_dout_conf.dout_1_hysteresis>
+    <app_dout_conf.dout_4_inverse>0</app_dout_conf.dout_4_inverse>
+    <app_din_conf.din_3_function>0</app_din_conf.din_3_function>
+    <throttle_map.max_ac_brake_current_4>-300</throttle_map.max_ac_brake_current_4>
+    <app_dout_conf.dout_2_hysteresis>0</app_dout_conf.dout_2_hysteresis>
+    <app_adc_conf.safe_start>102</app_adc_conf.safe_start>
+    <throttle_map.erpm_8>10000</throttle_map.erpm_8>
+    <throttle_map.max_ac_current_10>300</throttle_map.max_ac_current_10>
+    <app_uart_baudrate>2</app_uart_baudrate>
+    <throttle_map.max_ac_brake_current_10>-300</throttle_map.max_ac_brake_current_10>
+    <throttle_map.max_ac_current_4>300</throttle_map.max_ac_current_4>
+    <throttle_map.max_ac_brake_current_7>-300</throttle_map.max_ac_brake_current_7>
+    <app_dout_conf.dout_2_function>0</app_dout_conf.dout_2_function>
+    <app_din_conf.din_1_function>154</app_din_conf.din_1_function>
+    <app_adc_conf.use_filter>102</app_adc_conf.use_filter>
+    <app_adc_conf.voltage_start>0.1</app_adc_conf.voltage_start>
+    <app_adc_conf.voltage_end>1.4013e-43</app_adc_conf.voltage_end>
+    <throttle_map.max_ac_current_3>10000</throttle_map.max_ac_current_3>
+    <app_din_conf.din_2_inverse>3</app_din_conf.din_2_inverse>
+    <throttle_map.max_ac_brake_current_5>-300</throttle_map.max_ac_brake_current_5>
+    <app_adc_conf.analog_in_3_type>1063675494</app_adc_conf.analog_in_3_type>
+    <app_din_conf.din_4_value>0</app_din_conf.din_4_value>
+    <app_dout_conf.dout_1_relation>0</app_dout_conf.dout_1_relation>
+    <app_dout_conf.dout_1_value>0</app_dout_conf.dout_1_value>
+    <app_dout_conf.dout_3_value>0</app_dout_conf.dout_3_value>
+    <app_adc_conf.voltage3_inverted>160</app_adc_conf.voltage3_inverted>
+    <app_din_conf.din_2_value>33792</app_din_conf.din_2_value>
+    <app_dout_conf.dout_3_relation>0</app_dout_conf.dout_3_relation>
+    <send_can2_status_rate_hz>50</send_can2_status_rate_hz>
+    <app_adc_conf.hyst>0</app_adc_conf.hyst>
+    <app_adc_conf.voltage3_center>0</app_adc_conf.voltage3_center>
+    <app_adc_conf.voltage3_end>2.5</app_adc_conf.voltage3_end>
+    <app_adc_conf.rev_button_inverted>63</app_adc_conf.rev_button_inverted>
+    <app_dout_conf.dout_4_value>0</app_dout_conf.dout_4_value>
+    <home_position_t.home_position>0</home_position_t.home_position>
+    <app_dout_conf.dout_4_function>0</app_dout_conf.dout_4_function>
+</APPConfiguration>
+</Configuration>
