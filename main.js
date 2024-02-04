@@ -31,6 +31,15 @@ pages.forEach(page => {
 
 app.use('/modules', express.static(__dirname + '/node_modules/'));
 
+httpServer.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
+/**  
+ * questo codice è stato commentato perché veniva usato per scaricare i file
+ * bag che venivano registrati sul file system del server
+ */
+/*
 app.get('/bags_info', (req, res) => {
   
   let directories_info = [];
@@ -56,6 +65,7 @@ app.get('/bags_info', (req, res) => {
   });
 }); 
 
+
 app.get('/get_bag/*', (req, res) => {
   let file_name = req.path.split('/');
   let pathToFilesDirectory = '/home/bag_files/' + file_name[2] + '/';
@@ -65,9 +75,6 @@ app.get('/get_bag/*', (req, res) => {
   ]);
 }); 
 
-httpServer.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-});
 
 function getSize(path){
   // Get the size of a file or folder recursively
@@ -82,18 +89,30 @@ function getSize(path){
   }
   return size;
 }
+*/
 
+/**
+ * Questo codice è stato commentato perché veniva usato per leggere i file
+ * di configurazione del sistema di controllo
+ */
+/*
 fs.readFile('./dticonfdefault_IH310266.dticfg', (err, data) => {
   let json = parser.toJson(data);
   let object = JSON.parse(json);
   // console.log(object)
   // console.log(object.pokedex)
 
-  /* for(var pokemon of object.pokedex.pokemon) {
-    console.log(pokemon.species)
-  } */
+  // for(var pokemon of object.pokedex.pokemon) {
+    // console.log(pokemon.species)
+  // } 
 });
+*/
 
+/**
+ * Questo codice è stato commentato perché veniva usato per leggere ricevere
+ * i dati della macchina da ROS e inviarli ai client connessi
+ */
+/*
 if(process.platform == 'linux') {
   
   const { exec, spawn } = require('child_process');
@@ -296,11 +315,5 @@ if(process.platform == 'linux') {
   }
 
   if(!isFrontDev) { subscribeToTopics(); }
-  
-  /* [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
-    process.on(eventType, () => {
-      rclnodejs.shutdown();
-      httpServer.close();
-    });
-  }) */
 }
+*/

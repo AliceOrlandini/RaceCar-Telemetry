@@ -1,5 +1,5 @@
 {
-  "name": "etdv_remote_info",
+  "name": "racecar_telemetry",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -9,10 +9,10 @@
     "css": "npx tailwindcss -i ./public/src/css/input.css -o ./public/src/css/style.css --watch"
   },
   "keywords": [],
-  "author": "",
+  "author": "Alice Orlandini",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.20",
+    "nodemon": "^3.0.3",
     "tailwindcss": "^3.2.4"
   },
   "dependencies": {
