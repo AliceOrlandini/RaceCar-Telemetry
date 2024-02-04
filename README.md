@@ -1,21 +1,33 @@
-# Car_Telemetry
+# RaceCar-Telemetry
 
-This is the remote viewer for the current state of the car.
+RaceCar-Telemetry is a project that provides a telemetry system to monitor a car's performance during a race. 
+The backend is developed using Node.js and Express, while the frontend makes use of Tailwind CSS for styling and pure JavaScript for the rest.
 
-# Setup
-Clone `car_telemetry` and install the required packages:
+# Getting Started
+Before you begin, make sure you have Node.js installed on your machine.
+Clone the repository:
+```console
+git clone https://github.com/AliceOrlandini/RaceCar-Telemetry.git
 ```
-cd car_telemetry
+Navigate to the project directory and install dependencies:
+```console
+cd RaceCar-Telemetry
 npm install
 ```
-# Run
+# Usage
 
 To compile the css use the command:
-```
+```console
 npm run css
 ```
 To start the server use the command:
-```
+```console
 npm run dev
 ```
-The server will start on port `8080`.
+The server will be available at http://localhost:8080.
+
+## Contributions
+We welcome contributions! Feel free to open issues, propose new features, or submit pull requests.
+
+## License
+This project is licensed under the [MIT License](LICENSE).
