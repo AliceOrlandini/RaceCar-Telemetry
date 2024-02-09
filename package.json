@@ -28,6 +28,6 @@
     "sql.js": "^1.8.0",
     "sweetalert2": "^11.4.8",
     "tree-kill": "^1.2.2",
-    "xml2json": "^0.12.0"
+    "xml2json": "^0.7.1"
   }
 }
